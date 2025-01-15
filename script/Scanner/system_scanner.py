@@ -1,5 +1,5 @@
 import os
-from spintread import Spinner
+from script.spintread import Spinner
 from typing import Optional, List
 
 
