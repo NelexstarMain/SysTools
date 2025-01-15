@@ -1,5 +1,5 @@
 import os
-import time
+from spintread import Spinner
 from typing import Optional, List
 
 
@@ -26,7 +26,7 @@ class CurrentFileScanner:
         self.dirs = 0
         self.status_interval = 100
 
-    def count_files_and_folders(self, path) -> None:
+    def count_files_and_folders(self, path, spinner: Spinner) -> None:
         """
         Counts the number of files and folders within a given path.
 
@@ -39,7 +39,11 @@ class CurrentFileScanner:
         for root, dirs, files in os.walk(path):
             folder_count += len(dirs)
             file_count += len(files)
+            spinner.update_status(
+                    f" Files Counted: {file_count} | Dirs Counted: {folder_count}"
+                )
 
+        
         self.files = file_count
         self.dirs = folder_count
 
@@ -61,7 +65,7 @@ class CurrentFileScanner:
         except (FileNotFoundError, PermissionError):
             return None
 
-    def filter_elements(self, path: str) -> None:
+    def filter_elements(self, path: str, spinner: Spinner) -> None:
         """
         Recursively searches for files with the specified name within a directory tree 
         and appends their full paths to the internal '__matching_elements' list.
@@ -79,7 +83,7 @@ class CurrentFileScanner:
                 self.__matching_elements.append(full_path)
 
             if os.path.isdir(full_path):
-                self.filter_elements(full_path)
+                self.filter_elements(full_path, spinner)
 
             if os.path.isfile(full_path):
                 self.files_processed += 1
@@ -87,17 +91,36 @@ class CurrentFileScanner:
             step_count += 1
 
             if step_count % self.status_interval == 0:
-                print(f"Scanning... {'|/-\\'[int(time.time() * 10) % 4]} | Files Processed: {self.files_processed} | Dirs Processed: {self.dirs_processed} | Progress: {self.files_processed / self.files * 100:.2f}%" , end="\r")
-
+                progress = (self.files_processed / self.files * 100) if self.files > 0 else 0
+                spinner.update_status(
+                    f"Files Processed: {self.files_processed} | Dirs Processed: {self.dirs_processed} | Progress: {progress:.2f}%"
+                )
     def run(self) -> List[str]:
         """
         Starts the file search process.
+
+        Returns:
+            List[str]: A list of file paths matching the specified name.
         """
-        self.count_files_and_folders(self.__main)
-        self.filter_elements(self.__main)
+        spinner = Spinner(message="Counting directories")
+        spinner.start()
+
+        self.count_files_and_folders(self.__main, spinner)
+
+        spinner.stop()
+
+
+        spinner = Spinner(message="Scanning directories")
+        spinner.start()
+
+        self.filter_elements(self.__main, spinner)
+
+        spinner.stop()
 
         if not self.__matching_elements:
-            print(f"\nFile '{self.name}' not found in {self.__main}")
+            print(f"File '{self.name}' not found in {self.__main}")
+
+        return self.__matching_elements
 
 if __name__ == "__main__":
     c = CurrentFileScanner(name="__init__.py")
