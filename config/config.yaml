@@ -1,0 +1,7 @@
+default_path: "/"
+file_name: "sample.py"
+status_interval: 10
+spinner_messages:
+  counting: "Counting directories"
+  scanning: "Scanning directories"
+handle_exceptions: true

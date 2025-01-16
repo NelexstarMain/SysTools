@@ -12,23 +12,24 @@ class CurrentFileScanner:
     Class for scanning a directory tree and finding files with a specified name.
     """
 
-    def __init__(self, path: str = "", name: str = "sample.py") -> None:
+    def __init__(self, config: dict) -> None:
         """
-        Initializes the scanner with a path and target file name.
+        Initializes the scanner with configuration.
 
         Args:
-            path (str, optional): The path to start the scan from. Defaults to the root directory.
-            name (str): The name of the file to search for. Defaults to "sample.py".
+            config (dict): Configuration data loaded from YAML.
         """
-        self.name = name
-        self.__main = os.path.abspath(os.sep) if path == "" else path
-        self.__matching_elements: list = []
+        self.name = config.get("file_name", "sample.py")
+        self.__main = config.get("default_path", os.path.abspath(os.sep))
+        self.status_interval = config.get("status_interval", 1)
+        self.spinner_messages = config.get("spinner_messages", {})
+        self.handle_exceptions = config.get("handle_exceptions", True)
 
+        self.__matching_elements: list = []
         self.files_processed = 0
         self.dirs_processed = 0
         self.files = 0
         self.dirs = 0
-        self.status_interval = 100
 
     def count_files_and_folders(self, path, spinner: Spinner) -> None:
         """
@@ -106,15 +107,14 @@ class CurrentFileScanner:
         Returns:
             List[str]: A list of file paths matching the specified name.
         """
-        spinner = Spinner(message="Counting directories")
+        spinner = Spinner(message=self.spinner_messages.get("counting", "Counting directories"))
         spinner.start()
 
         self.count_files_and_folders(self.__main, spinner)
 
         spinner.stop()
 
-
-        spinner = Spinner(message="Scanning directories")
+        spinner = Spinner(message=self.spinner_messages.get("scanning", "Scanning directories"))
         spinner.start()
 
         self.filter_elements(self.__main, spinner)
@@ -125,7 +125,3 @@ class CurrentFileScanner:
             print(f"File '{self.name}' not found in {self.__main}")
 
         return self.__matching_elements
-
-if __name__ == "__main__":
-    c = CurrentFileScanner(name="__init__.py")
-    c.run()
