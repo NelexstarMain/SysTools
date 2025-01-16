@@ -12,14 +12,14 @@ class CurrentFileScanner:
     Class for scanning a directory tree and finding files with a specified name.
     """
 
-    def __init__(self, config: dict) -> None:
+    def __init__(self, config: dict, name: str = "") -> None:
         """
         Initializes the scanner with configuration.
 
         Args:
             config (dict): Configuration data loaded from YAML.
         """
-        self.name = config.get("file_name", "sample.py")
+        self.name = config.get("file_name", "sample.py") if name == "" else name
         self.__main = config.get("default_path", os.path.abspath(os.sep))
         self.status_interval = config.get("status_interval", 1)
         self.spinner_messages = config.get("spinner_messages", {})

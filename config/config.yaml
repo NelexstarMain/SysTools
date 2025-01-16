@@ -1,3 +1,5 @@
+# CurrentFileScanner
+
 default_path: "/"
 file_name: "sample.py"
 status_interval: 10
