@@ -1,5 +1,8 @@
 import time
 import threading
+from colorama import Fore, Style, init
+
+init(autoreset=True)
 
 
 class Spinner:
@@ -19,19 +22,22 @@ class Spinner:
         self.interval = interval
         self._stop_event = threading.Event()
         self._spinner_thread = threading.Thread(target=self._spin)
-        self.status = ""  
+        self.status = ""
+        self.spinner_sequence = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
 
     def _spin(self) -> None:
         """
         Handles the spinner animation in a separate thread.
         """
-        spinner_sequence = "|/-\\"
         idx = 0
         while not self._stop_event.is_set():
-            print(f"\r=> {self.message} {spinner_sequence[idx % len(spinner_sequence)]} {self.status}", end="")
+            print(
+                f"\r{Fore.CYAN}{self.message} {self.spinner_sequence[idx % len(self.spinner_sequence)]} "
+                f"{Fore.YELLOW}{self.status}{Style.RESET_ALL}",
+                end="",
+            )
             idx += 1
-            time.sleep(self.interval)
-        print("\r", end="")  
+            time.sleep(self.interval) 
 
     def update_status(self, status: str) -> None:
         """

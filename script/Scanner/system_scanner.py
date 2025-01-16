@@ -1,5 +1,9 @@
 import os
-from script.spintread import Spinner
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from spintread import Spinner
 from typing import Optional, List
 
 
@@ -93,7 +97,7 @@ class CurrentFileScanner:
             if step_count % self.status_interval == 0:
                 progress = (self.files_processed / self.files * 100) if self.files > 0 else 0
                 spinner.update_status(
-                    f"Files Processed: {self.files_processed} | Dirs Processed: {self.dirs_processed} | Progress: {progress:.2f}%"
+                    f" Files Processed: {self.files_processed} | Dirs Processed: {self.dirs_processed} | Progress: {progress:.2f}%"
                 )
     def run(self) -> List[str]:
         """
