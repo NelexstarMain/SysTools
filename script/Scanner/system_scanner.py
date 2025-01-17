@@ -1,5 +1,8 @@
 import os
 import sys
+from colorama import Fore, Style, init
+
+init(autoreset=True)
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -12,7 +15,7 @@ class CurrentFileScanner:
     Class for scanning a directory tree and finding files with a specified name.
     """
 
-    def __init__(self, config: dict, name: str = "") -> None:
+    def __init__(self, config: dict, name: str = "", print: bool = False) -> None:
         """
         Initializes the scanner with configuration.
 
@@ -24,6 +27,7 @@ class CurrentFileScanner:
         self.status_interval = config.get("status_interval", 1)
         self.spinner_messages = config.get("spinner_messages", {})
         self.handle_exceptions = config.get("handle_exceptions", True)
+        self.print = print
 
         self.__matching_elements: list = []
         self.files_processed = 0
@@ -123,5 +127,11 @@ class CurrentFileScanner:
 
         if not self.__matching_elements:
             print(f"File '{self.name}' not found in {self.__main}")
+        
+        else:
+            if self.print:
+                print(f"{Fore.GREEN}[{len(self.__matching_elements)}] elements found")
+                for i in range(len(self.__matching_elements)):
+                    print(f"{Fore.LIGHTCYAN_EX}{self.__matching_elements[i]}")
 
         return self.__matching_elements
