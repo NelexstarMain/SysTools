@@ -1,14 +1,11 @@
 import os
 import sys
 from colorama import Fore, Style, init
+from typing import Optional, List
+from core.Processes.spinner import Spinner
+
 
 init(autoreset=True)
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from spintread import Spinner
-from typing import Optional, List
-
 
 class CurrentFileScanner:
     """
@@ -35,7 +32,7 @@ class CurrentFileScanner:
         self.files = 0
         self.dirs = 0
 
-    def count_files_and_folders(self, path, spinner: Spinner) -> None:
+    def count_files_and_folders(self, path, spinner) -> None:
         """
         Counts the number of files and folders within a given path.
 
@@ -74,7 +71,7 @@ class CurrentFileScanner:
         except (FileNotFoundError, PermissionError):
             return None
 
-    def filter_elements(self, path: str, spinner: Spinner) -> None:
+    def filter_elements(self, path: str, spinner) -> None:
         """
         Recursively searches for files with the specified name within a directory tree 
         and appends their full paths to the internal '__matching_elements' list.

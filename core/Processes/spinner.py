@@ -1,3 +1,29 @@
+"""
+Spinner Utility Module
+
+This module provides a `Spinner` class for displaying animated spinner 
+indicators during long-running processes. The spinner can display a message, 
+update its status, and run in a separate thread to avoid blocking the main program.
+
+Classes:
+- Spinner: A class for managing spinner animations.
+
+Usage:
+    from modules.core.Processes.spinner import Spinner
+
+    spinner = Spinner("Loading data")
+    spinner.start()
+    
+    # Simulate a long-running process
+    for i in range(5):
+        time.sleep(1)
+        spinner.update_status(f"Step {i + 1}/5")
+
+    spinner.stop()
+"""
+
+
+
 import time
 import threading
 from colorama import Fore, Style, init

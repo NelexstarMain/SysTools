@@ -1,7 +1,7 @@
 import click
-from config.config_loader import load_config
-from script.Scanner.system_scanner import CurrentFileScanner
-from script.Zipper.zip import zip  
+from config.loader import load_config
+from modules.Scanner.scanner import CurrentFileScanner
+from modules.Zipper import zip  
 
 @click.group()
 def cli():
@@ -13,7 +13,7 @@ def cli():
 @click.argument('print', type=bool)
 def scan(scan, print):
     """Scan for a specific file or word."""
-    config = load_config("config/config.yaml")
+    config = load_config("config/settings.yaml")
     scanner = CurrentFileScanner(config=config, name=str(scan), print=print)
     
     if scan:

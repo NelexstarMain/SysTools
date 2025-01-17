@@ -1,3 +1,4 @@
+
 import yaml
 
 def load_config(file_path: str) -> dict:
@@ -10,5 +11,11 @@ def load_config(file_path: str) -> dict:
     Returns:
         dict: Configuration data as a dictionary.
     """
-    with open(file_path, 'r') as config_file:
-        return yaml.safe_load(config_file)
+    
+    try:
+        with open(file_path, 'r') as config_file:
+            return yaml.safe_load(config_file)
+    
+    except FileNotFoundError:
+        print("FileNotFoundError")
+
