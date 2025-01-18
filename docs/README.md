@@ -61,11 +61,46 @@ python main.py
 
 Once the application is running, you can use the following commands:
 
+![scan](/assets/scan1.gif)
+
 - **scan**: Scans the directories and lists all file paths.
+
 
 - **zipit**: Zips the specified files and folders.
 
 - **exit**: Exits the application.
+
+- **copy**: Copy Folders and files structure and saves to json.
+
+```json
+{
+    "main.py": null,
+    "LICENSE": null,
+    "requirements.txt": null,
+    "setup.py": null,
+    "config": {
+        "settings.yaml": null,
+        
+    },
+    "docs": {
+        "INSTALL.md": null,
+        "README.md": null,
+        "USAGE.md": null
+    },
+    "modules": {
+        "login": {
+            "scanner.py": null,
+            "__init__.py": null
+        },
+    }
+    "tests": {
+        "test1.py": null,
+        "test2.py": null
+    }
+}
+
+```
+
 
 
 If you need help or a list of available commands, run:
