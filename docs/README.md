@@ -61,10 +61,9 @@ python main.py
 
 Once the application is running, you can use the following commands:
 
-![scan](/assets/scan1.gif)
+![scan](/assets/scan.png)
 
 - **scan**: Scans the directories and lists all file paths.
-
 
 - **zipit**: Zips the specified files and folders.
 
@@ -92,7 +91,7 @@ Once the application is running, you can use the following commands:
             "scanner.py": null,
             "__init__.py": null
         },
-    }
+    },
     "tests": {
         "test1.py": null,
         "test2.py": null
