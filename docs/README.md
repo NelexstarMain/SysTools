@@ -61,7 +61,7 @@ python main.py
 
 Once the application is running, you can use the following commands:
 
-![scan](/assets/scan.gif)
+![scan](/assets/scan1.gif)
 
 - **scan**: Scans the directories and lists all file paths.
 
@@ -92,7 +92,7 @@ Once the application is running, you can use the following commands:
             "scanner.py": null,
             "__init__.py": null
         },
-
+    }
     "tests": {
         "test1.py": null,
         "test2.py": null
