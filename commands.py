@@ -2,6 +2,7 @@ import click
 from config.loader import load_config
 from modules.Scanner.scanner import CurrentFileScanner
 from modules.Zipper import zip  
+from modules.Structurer import parser
 
 @click.group()
 def cli():
@@ -35,9 +36,19 @@ def zipit(files):
     zip(files)
     click.echo(f"File have been zipped")
 
+@click.command()
+@click.argument('path', type=str)
+def copy(path) -> None:
+    """Copy specified directory structure."""
+    copy_element = parser.Parser(path, "./config/structures/removals.json", "./config/structures/structures.json")
+    copy_element.get_removals()
+    copy_element.scan_directory()
+    copy_element.save_to_json()
+    
 cli.add_command(scan)
 cli.add_command(exit)
 cli.add_command(zipit)
+cli.add_command(copy)
 
 if __name__ == "__main__":
     cli()
